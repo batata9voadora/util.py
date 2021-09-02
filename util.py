@@ -18,7 +18,8 @@ from struct import pack, unpack
 # REGEXes
 # find funcs
 # def [a-zA-Z]*
-
+# find function missing ->
+# def .*\(.*\):$
 
 
 # magic class methods https://www.tutorialsteacher.com/python/magic-methods-in-python
@@ -41,7 +42,7 @@ def nop():pass
 class noc:pass
 
 class log:
-	def __init__(this,sep=', ',tm=True,file="log"):
+	def __init__(this,sep=', ',tm=True,file="log") -> log:
 		this.tm = tm
 		this.sep = sep
 		this.LOG = []
@@ -72,7 +73,7 @@ class log:
 	def __getitem__(this,num:int) -> str:
 		return this.LOG[num]
 
-	def __call__(this) -> list:
+	def __call__(this) -> list[str]:
 		return this.LOG
 
 	def __iter__(this) -> None:
@@ -97,7 +98,7 @@ class log:
 # e.g.:
 # _log.add(f'func (r) = {end , start, jmp} => range')
 
-def r(end:object,start:int=0,jmp:int=1):
+def r(end:object,start:int=0,jmp:int=1) -> int:
 	# _log.add(f'func (r) = {end , start, jmp} => yield')
 	try:
 		try:
@@ -128,20 +129,20 @@ def AssureType(value:object,types:type,err:bool=True,ErrorMsg=None) -> TypeError
 	return True
 
 class timer:
-	def __init__(this,auto:bool=True):
+	def __init__(this,auto:bool=True) -> timer:
 		# _log.add(f'class (timer.__init__) = {auto} ')
 		this.markers = []
 		if auto:this.st = tm()
 
-	def start(this):
+	def start(this) -> None:
 		# _log.add(f'class (timer.start) = None => None')
 		this.st = tm()
 
-	def mark(this):
+	def mark(this) -> None:
 		# _log.add(f'class (timer.mark) = None => None')
 		this.markers.append(this.get())
 
-	def marks(this) -> list:
+	def marks(this) -> list[float]:
 		# _log.add(f'class (timer.marks) = None => list')
 		return this.markers
 
@@ -291,50 +292,50 @@ def fib(n:int) -> list:
 	return result
 
 class rng:
-	def new(this):
+	def new(this) -> int:
 		# _log.add(f'class (rng) -> new prop')
 		this.var = []
 		for _ in range(this.size):
 			this.var.append(rint(this.mn,this.mx))
 		return this.var
 
-	def get(this):
+	def get(this) -> int:
 		# _log.add(f'class (rng) -> get prop')
 		this.var = []
 		for _ in range(this.size):
 			this.var.append(rint(this.mn,this.mx))
 		return this.var
 
-	def __init__(this,mn,mx,size=1):
+	def __init__(this,mn,mx,size=1) -> rng:
 		# _log.add(f'class (rng) -> __init__ with {this,mn,mx,size}')
 		this.size=size
 		this.mn=mn
 		this.mx=mx
 		this.new
 
-	def __repr__(this):
+	def __repr__(this) -> str:
 		# _log.add(f'class (rng) -> __repr__')
 		if len((var:=this.var))==1:
 			var=this.var[0]
 		this.new
 		return f'{var}'
 
-	def NewSize(this,size):
+	def NewSize(this,size) -> None:
 		# _log.add(f'class (rng) -> new_size with ({size})')
 		this.size=size
 		this.new
 
-	def NewMin(this,mn):
+	def NewMin(this,mn) -> None:
 		# _log.add(f'class (rng) -> new_min with {this,mn}')
 		this.mn=mn
-	def NewMax(this,mx):
+	def NewMax(this,mx) -> None:
 		# _log.add(f'class (rng) -> new_max with {this,mx}')
 		this.mx=mx
 
-	def __call__(this):
+	def __call__(this) -> int:
 		return this.get()
 
-def print(*msg,end='\n',sep=", "):
+def print(*msg,end='\n',sep=", ") -> None:
 	# make msg
 	# sep.join(...) então os argumentos são "juntados" com o sep
 	# [str(m) for m in msg] para transformar todo valor em string
@@ -348,7 +349,7 @@ def print(*msg,end='\n',sep=", "):
 	# escrever o conteúdo do terminal no cmd
 	sout.flush()
 
-def printl(*msg,sep=", "):
+def printl(*msg,sep=", ") -> None:
 	# make msg
 	msg = sep.join([str(m) for m in msg])
 
@@ -358,7 +359,7 @@ def printl(*msg,sep=", "):
 	# flush msg
 	sout.flush()
 
-def prints(*msg,sep=", "):
+def prints(*msg,sep=", ") -> None:
 	# make msg
 	msg = sep.join([str(m) for m in msg])
 
